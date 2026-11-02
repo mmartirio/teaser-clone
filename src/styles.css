@@ -167,6 +167,7 @@ p { margin: 0; }
 .mobile-nav__ctas { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 2rem; }
 .mobile-nav .btn--ghost { --text: #fff; border-color: rgba(255,255,255,0.2); }
 .mobile-nav .btn--ghost:hover { border-color: #fff; }
+.mobile-nav .btn--accent { background: var(--accent); color: #fff; }
 
 /* ---------- Hero ---------- */
 .hero {
