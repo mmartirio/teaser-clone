@@ -66,16 +66,37 @@ export default function Header({ page = 'home' }) {
         </button>
       </div>
 
-      <div className={`mobile-nav ${open ? 'is-open' : ''}`} onClick={() => setOpen(false)}>
+      <nav
+        className={`mobile-nav ${open ? 'is-open' : ''}`}
+        aria-label="Menu mobile"
+        aria-hidden={!open}
+      >
         {nav.map((n) => (
-          <a key={n.id} href={`#${n.id}`}>{n.label}</a>
+          <a
+            key={n.id}
+            href={`#${n.id}`}
+            className={active === n.id ? 'is-active' : ''}
+            onClick={() => setOpen(false)}
+          >
+            {n.label}
+          </a>
         ))}
-        <a href="#compliance">Compliance</a>
-        <a href="#contato">Contato</a>
-        <a className="btn btn--accent" href={waLink()} target="_blank" rel="noreferrer">
-          Chamar no WhatsApp
+        <a
+          href="#compliance"
+          className={active === 'compliance' ? 'is-active' : ''}
+          onClick={() => setOpen(false)}
+        >
+          Compliance
         </a>
-      </div>
+        <div className="mobile-nav__ctas">
+          <a className="btn btn--ghost btn--block" href="#contato" onClick={() => setOpen(false)}>
+            Fale conosco
+          </a>
+          <a className="btn btn--accent btn--block" href={waLink()} target="_blank" rel="noreferrer">
+            Chamar no WhatsApp
+          </a>
+        </div>
+      </nav>
     </header>
   )
 }
