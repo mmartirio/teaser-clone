@@ -3,11 +3,13 @@ import { ArrowLeft, ArrowRight, ArrowUpRight, ChevronRight, Expand, Images, Play
 import { projects } from '../projects.js'
 import Lightbox from './Lightbox.jsx'
 import ScrollButtons from './ScrollButtons.jsx'
+import VideoModal from './VideoModal.jsx'
 
 // Página de um projeto do portfólio (abre em #projeto/<slug>).
 export default function ProjectPage({ slug }) {
   const index = projects.findIndex((p) => p.slug === slug)
   const [viewer, setViewer] = useState(null)
+  const [film, setFilm] = useState(null) // { src, title, startAt, video } do vídeo aberto no modal
 
   if (index === -1) return <NotFound />
 
@@ -91,13 +93,30 @@ export default function ProjectPage({ slug }) {
             <div className={`pj-films__grid ${p.videos.length > 1 ? 'is-multi' : ''}`}>
               {p.videos.map((src, k) => (
                 <figure key={src} className="pj-film" data-reveal>
-                  <video controls playsInline preload="metadata" poster={p.images[0]}>
-                    <source src={src} type={src.endsWith('.mov') ? 'video/quicktime' : 'video/mp4'} />
-                    <source src={src} />
+                  {/* sem poster: o player mostra o 1º quadro do vídeo e já fica na proporção dele */}
+                  <video controls playsInline preload="metadata">
+                    <source src={`${src}#t=0.1`} type={src.endsWith('.mov') ? 'video/quicktime' : 'video/mp4'} />
+                    <source src={`${src}#t=0.1`} />
                   </video>
                   <figcaption>
                     {p.videos.length > 1 ? `Filme ${k + 1}` : p.title}
-                    <a href={src} target="_blank" rel="noreferrer">Abrir vídeo <ArrowUpRight size={14} /></a>
+                    <button
+                      type="button"
+                      className="pj-film__open"
+                      // pausa o vídeo do card e abre o modal a partir do mesmo ponto
+                      onClick={(e) => {
+                        const video = e.currentTarget.closest('figure')?.querySelector('video')
+                        video?.pause()
+                        setFilm({
+                          src,
+                          title: p.videos.length > 1 ? `${p.title} · Filme ${k + 1}` : p.title,
+                          startAt: video?.currentTime || 0,
+                          video,
+                        })
+                      }}
+                    >
+                      Abrir vídeo <Expand size={14} />
+                    </button>
                   </figcaption>
                 </figure>
               ))}
@@ -149,6 +168,18 @@ export default function ProjectPage({ slug }) {
       </section>
 
       <ScrollButtons />
+
+      {film && (
+        <VideoModal
+          src={film.src}
+          title={film.title}
+          startAt={film.startAt}
+          onClose={(t) => {
+            if (film.video && t) film.video.currentTime = t // o card continua de onde parou
+            setFilm(null)
+          }}
+        />
+      )}
 
       {viewer !== null && (
         <Lightbox images={p.images} start={viewer} title={p.title} onClose={() => setViewer(null)} />

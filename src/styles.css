@@ -610,16 +610,43 @@ p { margin: 0; }
 .pj-films { padding-bottom: clamp(1.5rem, 3vw, 2.5rem); }
 .pj-films + .pj-gallery { padding-top: clamp(1.5rem, 3vw, 2.5rem); }
 .pj-films + .pj-gallery .section__head { margin-bottom: clamp(1.5rem, 3vw, 2.25rem); }
-.pj-films__grid { display: grid; gap: 1.5rem; }
-.pj-films__grid.is-multi { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
-.pj-film { margin: 0; border-radius: var(--radius); overflow: hidden; background: #111013; box-shadow: 0 30px 60px -30px rgba(17, 16, 19, 0.45); }
-.pj-film video { display: block; width: 100%; max-height: 72vh; background: #000; }
+/* o card tem o tamanho da tela de reprodução: acompanha a proporção de cada vídeo, sem faixas pretas */
+.pj-films__grid { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: flex-start; }
+.pj-film {
+  margin: 0; width: fit-content; max-width: 100%; border-radius: var(--radius); overflow: hidden;
+  background: #111013; box-shadow: 0 30px 60px -30px rgba(17, 16, 19, 0.45);
+}
+.pj-film video {
+  display: block; width: auto; height: auto; max-width: 100%;
+  max-height: min(72vh, 640px); min-width: 220px; background: #000;
+}
+/* vários filmes: lado a lado, cada card do tamanho do seu vídeo */
+.pj-films__grid.is-multi { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); align-items: start; }
+.pj-films__grid.is-multi .pj-film { width: 100%; }
+.pj-films__grid.is-multi .pj-film video { width: 100%; min-width: 0; max-height: min(70vh, 620px); }
 .pj-film figcaption {
   display: flex; justify-content: space-between; align-items: center; gap: 1rem;
   padding: 0.85rem 1.1rem; color: #fff; font-weight: 600; font-size: 0.92rem;
 }
-.pj-film figcaption a { display: inline-flex; align-items: center; gap: 0.3rem; color: rgba(255, 255, 255, 0.7); font-weight: 500; }
-.pj-film figcaption a:hover { color: #35d3df; }
+.pj-film__open {
+  display: inline-flex; align-items: center; gap: 0.35rem; padding: 0; border: 0; background: none;
+  color: rgba(255, 255, 255, 0.7); font-weight: 500; font-size: inherit; cursor: pointer;
+}
+.pj-film__open:hover { color: #35d3df; }
+
+/* Modal do player */
+.vmodal {
+  position: fixed; inset: 0; z-index: 96; display: grid; place-items: center; padding: 1.25rem;
+  background: rgba(10, 10, 12, 0.92); backdrop-filter: blur(6px); animation: fade 0.25s;
+}
+.vmodal__box { display: grid; gap: 0.75rem; max-width: 100%; animation: pop 0.3s var(--ease); }
+.vmodal__top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; color: #fff; font-weight: 600; }
+.vmodal__close { color: #fff; border-color: rgba(255, 255, 255, 0.25); background: rgba(255, 255, 255, 0.06); }
+.vmodal__close:hover { background: var(--accent); border-color: var(--accent); }
+.vmodal video {
+  display: block; width: auto; height: auto; max-width: min(92vw, 1400px); max-height: calc(100dvh - 7rem);
+  min-width: 260px; border-radius: var(--radius); background: #000; box-shadow: 0 40px 100px -30px rgba(0, 0, 0, 0.8);
+}
 
 .frames { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-flow: dense; gap: 0.75rem; }
 .frames__item { aspect-ratio: 1 / 1; min-width: 0; }
