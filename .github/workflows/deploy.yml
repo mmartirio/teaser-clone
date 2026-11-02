@@ -1,5 +1,55 @@
-   cd D:\Projetos\landingPage_Teaser
-   git pull
-   git add -A
-   git commit -m "Build com Vite no GitHub Pages e cards expansíveis em A Teaser"
-   git push
+# Publica o site no GitHub Pages a cada push na branch main.
+# Faz o build com Vite (yarn build) e publica a pasta dist.
+name: Deploy no GitHub Pages
+
+on:
+  push:
+    branches: ['main']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+
+      - name: Instalar dependências
+        run: yarn install --frozen-lockfile
+
+      - name: Build
+        run: yarn build
+
+      - name: Configurar Pages
+        uses: actions/configure-pages@v5
+
+      - name: Enviar a pasta dist
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publicar
+        id: deployment
+        uses: actions/deploy-pages@v4
