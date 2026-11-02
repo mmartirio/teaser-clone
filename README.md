@@ -1,6 +1,7 @@
 # Landing page · Teaser Comunicação
 
 Nova versão em React (Vite) do site https://teasercomunicacao.com.br/.
+Versão de teste e aprovação: https://mmartirio.github.io/teaser-clone
 
 ## Como rodar
 
