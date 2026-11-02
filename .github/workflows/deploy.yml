@@ -1,0 +1,5 @@
+   cd D:\Projetos\landingPage_Teaser
+   git pull
+   git add -A
+   git commit -m "Build com Vite no GitHub Pages e cards expansíveis em A Teaser"
+   git push
