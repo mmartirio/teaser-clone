@@ -157,7 +157,7 @@ p { margin: 0; }
 }
 .mobile-nav.is-open { opacity: 1; visibility: visible; transform: none; }
 .mobile-nav a:not(.btn) {
-  font: 600 1.75rem var(--font-display); padding: 0.75rem 0;
+  font: 600 1.2rem var(--font-display); padding: 0.75rem 0;
   border-bottom: 1px solid var(--line); color: rgba(255,255,255,0.72);
   transition: color 0.2s;
 }
