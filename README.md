@@ -63,3 +63,13 @@ Os dados ficam em `src/projects.js`:
 - Imagens e vídeos ainda vêm do WordPress atual (`U`). Ao migrar, copie os arquivos para `public/` e troque `U`.
 - O filme de "São João Gov 2024" está em `.mov`, formato que alguns navegadores não tocam; o ideal é convertê-lo para `.mp4`.
 
+## Publicar no GitHub Pages
+
+O site é publicado pelo workflow `.github/workflows/deploy.yml`, que faz o `yarn build` e publica a pasta `dist` a cada push na branch `main`.
+
+1. Em **Settings › Pages**, em *Build and deployment › Source*, escolha **GitHub Actions**.
+2. Apague o workflow do Jekyll (`.github/workflows/jekyll-gh-pages.yml`), se existir: ele publica os arquivos-fonte sem compilar e deixa a página em branco.
+3. Envie o projeto para a branch `main` (com `vite.config.js` e `.github/workflows/deploy.yml`). Acompanhe em **Actions**; ao terminar, o site fica em `https://<usuário>.github.io/<repositório>/`.
+
+O `vite.config.js` usa `base: './'`, então o site funciona em qualquer endereço sem ajuste.
+
