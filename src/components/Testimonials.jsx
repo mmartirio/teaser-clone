@@ -19,8 +19,11 @@ export default function Testimonials() {
   const tabsRef = useRef(null)
 
   useEffect(() => {
-    const tab = tabsRef.current?.querySelectorAll('[role="tab"]')[i]
-    tab?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
+    const container = tabsRef.current
+    const li = container?.querySelectorAll('li')[i]
+    if (!container || !li) return
+    const left = li.offsetLeft + li.offsetWidth / 2 - container.offsetWidth / 2
+    container.scrollTo({ left, behavior: 'smooth' })
   }, [i])
 
   useEffect(() => {
