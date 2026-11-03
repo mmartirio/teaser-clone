@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ChevronLeft, ChevronRight, Quote } from 'lucide-react'
 import { testimonials } from '../data.js'
 
@@ -16,6 +16,12 @@ export default function Testimonials() {
   const [i, setI] = useState(0)
   const [paused, setPaused] = useState(false)
   const n = testimonials.length
+  const tabsRef = useRef(null)
+
+  useEffect(() => {
+    const tab = tabsRef.current?.querySelectorAll('[role="tab"]')[i]
+    tab?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
+  }, [i])
 
   useEffect(() => {
     if (paused) return
@@ -44,7 +50,7 @@ export default function Testimonials() {
             Depoimentos de clientes que confiam suas marcas à Teaser. Escolha um nome para ler.
           </p>
 
-          <ul className="testi__tabs" role="tablist" aria-label="Escolher depoimento">
+          <ul className="testi__tabs" role="tablist" aria-label="Escolher depoimento" ref={tabsRef}>
             {testimonials.map((item, k) => (
               <li key={item.name}>
                 <button
