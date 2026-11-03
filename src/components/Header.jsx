@@ -30,41 +30,47 @@ export default function Header({ page = 'home' }) {
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
+    document.documentElement.style.overflow = open ? 'hidden' : ''
     const onKey = (e) => e.key === 'Escape' && setOpen(false)
     window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      document.documentElement.style.overflow = ''
+    }
   }, [open])
 
   return (
-    <header className={`header ${scrolled ? 'header--solid' : ''}`}>
-      <GptwSeal />
-      <div className="container header__inner">
-        <a href="#topo" className="brand" aria-label="Teaser Comunicação, início">
-          <img src={company.logo} alt="Teaser" width="120" height="36" />
-        </a>
+    <>
+      <header className={`header ${scrolled ? 'header--solid' : ''}`}>
+        <GptwSeal />
+        <div className="container header__inner">
+          <a href="#topo" className="brand" aria-label="Teaser Comunicação, início">
+            <img src={company.logo} alt="Teaser" width="120" height="36" />
+          </a>
 
-        <nav className="nav" aria-label="Principal">
-          {nav.map((n) => (
-            <a key={n.id} href={`#${n.id}`} className={active === n.id ? 'is-active' : ''}>
-              {n.label}
-            </a>
-          ))}
-          <a href="#compliance" className={active === 'compliance' ? 'is-active' : ''}>Compliance</a>
-        </nav>
+          <nav className="nav" aria-label="Principal">
+            {nav.map((n) => (
+              <a key={n.id} href={`#${n.id}`} className={active === n.id ? 'is-active' : ''}>
+                {n.label}
+              </a>
+            ))}
+            <a href="#compliance" className={active === 'compliance' ? 'is-active' : ''}>Compliance</a>
+          </nav>
 
-        <a className="btn btn--accent btn--sm header__cta" href="#contato">
-          Fale conosco <ArrowUpRight size={16} />
-        </a>
+          <a className="btn btn--accent btn--sm header__cta" href="#contato">
+            Fale conosco <ArrowUpRight size={16} />
+          </a>
 
-        <button
-          className="menu-btn"
-          aria-label={open ? 'Fechar menu' : 'Abrir menu'}
-          aria-expanded={open}
-          onClick={() => setOpen((o) => !o)}
-        >
-          {open ? <X /> : <Menu />}
-        </button>
-      </div>
+          <button
+            className="menu-btn"
+            aria-label={open ? 'Fechar menu' : 'Abrir menu'}
+            aria-expanded={open}
+            onClick={() => setOpen((o) => !o)}
+          >
+            {open ? <X /> : <Menu />}
+          </button>
+        </div>
+      </header>
 
       <nav
         className={`mobile-nav ${open ? 'is-open' : ''}`}
@@ -97,6 +103,6 @@ export default function Header({ page = 'home' }) {
           </a>
         </div>
       </nav>
-    </header>
+    </>
   )
 }
