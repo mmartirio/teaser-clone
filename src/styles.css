@@ -804,7 +804,8 @@ p { margin: 0; }
   .pj-hero__cover { justify-self: start; width: min(100%, 360px); }
   .frames { grid-template-columns: repeat(2, 1fr); }
   .cp__form-wrap { position: static; }
-  .testi__tabs { grid-auto-flow: column; grid-auto-columns: minmax(220px, 1fr); overflow-x: auto; margin-top: 2rem; padding-bottom: 0.25rem; }
+  .testi__tabs { grid-auto-flow: column; grid-auto-columns: minmax(220px, 1fr); overflow-x: auto; margin-top: 2rem; padding-bottom: 0.25rem; scrollbar-width: none; }
+  .testi__tabs::-webkit-scrollbar { display: none; }
   .team { grid-template-columns: repeat(2, 1fr); }
   .footer__grid { grid-template-columns: 1fr 1fr; }
   .footer__brand { grid-column: 1 / -1; }
