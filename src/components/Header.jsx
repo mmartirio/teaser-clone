@@ -98,9 +98,6 @@ export default function Header({ page = 'home' }) {
           <a className="btn btn--accent btn--block" href="#contato" onClick={() => setOpen(false)}>
             Fale conosco
           </a>
-          <a className="btn btn--ghost btn--block" href={waLink()} target="_blank" rel="noreferrer">
-            Chamar no WhatsApp
-          </a>
         </div>
       </nav>
     </>
