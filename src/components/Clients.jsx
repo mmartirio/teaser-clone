@@ -5,7 +5,7 @@ export default function Clients() {
 
   return (
     <section className="section theme-light clients" id="clientes">
-      <div className="container clients__head" data-reveal>
+      <div className="container section__head" data-reveal>
         <p className="eyebrow">Clientes</p>
         <h2 className="h2">Marcas que confiam nas nossas ideias.</h2>
       </div>
